@@ -7,7 +7,8 @@
     "dev": "npm --prefix client run dev",
     "build": "npm --prefix client run build",
     "preview": "npm --prefix client run preview",
-    "lint": "npm --prefix client run lint"
+    "lint": "npm --prefix client run lint",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -17,8 +18,5 @@
   "author": "Ujjwal and Vansh",
   "type": "commonjs",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "homepage": "https://github.com/van456-dot/Blue_Harvesters#readme"
 }
