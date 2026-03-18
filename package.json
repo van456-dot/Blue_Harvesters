@@ -1,10 +1,13 @@
 {
   "name": "blue_harvesters",
   "version": "1.0.0",
-  "description": "We are creating a website regarding water harvesting to get on spot assessment of the rooftop rainwater the user can hold.",
-  "main": "script.js",
+  "private": true,
+  "description": "A React/Vite frontend for a rainwater harvesting calculator.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npm --prefix client run dev",
+    "build": "npm --prefix client run build",
+    "preview": "npm --prefix client run preview",
+    "lint": "npm --prefix client run lint"
   },
   "repository": {
     "type": "git",

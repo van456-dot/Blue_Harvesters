@@ -1,16 +1,29 @@
-# React + Vite
+# Blue Harvesters (client)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This folder contains the React + Vite frontend for the Blue Harvesters rainwater calculator.
 
-Currently, two official plugins are available:
+## Getting started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+cd client
+npm install
+npm run dev
+```
 
-## React Compiler
+Then open the URL displayed in the terminal (usually `http://localhost:5173`).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Available commands
 
-## Expanding the ESLint configuration
+- `npm run dev` — start the dev server
+- `npm run build` — build production files (output is in `client/dist`)
+- `npm run preview` — preview the production build
+- `npm run lint` — run ESLint across the `src/` folder
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Project layout
+
+- `src/` — application source (React components, CSS)
+- `public/` — static assets and `index.html`
+
+---
+
+Edit React components in `src/` to change the UI.

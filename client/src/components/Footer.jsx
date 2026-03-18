@@ -1,26 +1,56 @@
 function Footer() {
   return (
-    <footer>
-      <div className="grid">
-        <ul>
-          Learn
-          <li>How it works?</li>
-          <li>Steps of Rain Harvesting</li>
-          <li>Why collect Rainwater</li>
-        </ul>
+    <footer className="footer" id="contact">
+      <div className="footer__grid">
+        <div className="footer__col">
+          <h3>Learn</h3>
+          <ul>
+            <li>
+              <a href="#how-it-works">How it works?</a>
+            </li>
+            <li>
+              <a href="#how-it-works">Steps of rain harvesting</a>
+            </li>
+            <li>
+              <a href="#how-it-works">Why collect rainwater</a>
+            </li>
+          </ul>
+        </div>
 
-        <ul>
-          Contact Us
-          <li><a href="#">LinkedIn</a></li>
-          <li><a href="#">Mail</a></li>
-        </ul>
+        <div className="footer__col">
+          <h3>Contact</h3>
+          <ul>
+            <li>
+              <a
+                href="https://www.linkedin.com"
+                target="_blank"
+                rel="noreferrer"
+              >
+                LinkedIn
+              </a>
+            </li>
+            <li>
+              <a href="mailto:hello@blueharvesters.com">Email</a>
+            </li>
+          </ul>
+        </div>
 
-        <ul>
-          <li><a href="#">Get Started</a></li>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">How it works?</a></li>
-        </ul>
+        <div className="footer__col">
+          <h3>Explore</h3>
+          <ul>
+            <li>
+              <a href="#calculator">Get started</a>
+            </li>
+            <li>
+              <a href="#about">About us</a>
+            </li>
+            <li>
+              <a href="#how-it-works">How it works</a>
+            </li>
+          </ul>
+        </div>
       </div>
+      <div className="footer__copy">© {new Date().getFullYear()} Blue Harvesters</div>
     </footer>
   );
 }
