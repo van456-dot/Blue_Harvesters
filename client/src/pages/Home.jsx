@@ -80,11 +80,26 @@ function Home() {
 
       <section className="section" id="calculator">
         <div className="section__inner">
-          <h2>Rainwater calculator (coming soon)</h2>
-          <p>
-            This section will let you input your roof size, rainfall, and water
-            usage to see how much water you can store.
-          </p>
+          <h2>Rainwater calculator</h2>
+          <form action="http://localhost:8080/rainwater/calc" method="POST">
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" /><br />
+            <label for="rftoparea">RoofTopArea(m<sup>2</sup>):</label>
+            <input type="text" name="rftoparea" id="rftoparea" /><br />
+            <label for="runoffcoeff">Container Material Type:</label>
+            <select name="runoffcoeff" id="runoffcoeff">
+              <option value="">select</option>
+              <option value="metal-steel">Steel</option>\
+              <option value="concrete">Concrete</option>
+            </select><br />
+            <button>Calculate</button>
+          </form>
+        </div>
+      </section>
+
+      <section className="section" id="result">
+        <div className="section__inner">
+          <h2>Result:</h2>
         </div>
       </section>
 
