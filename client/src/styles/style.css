@@ -12,8 +12,8 @@ body {
 }
 
 body {
-  background: radial-gradient(circle at top, #0b2545 0%, #03080f 90%);
   color: #f4f7ff;
+  background: radial-gradient(circle at top, #0b2545 0%, #03080f 90%);
 }
 
 a {
@@ -33,7 +33,7 @@ button {
   align-items: center;
   justify-content: space-between;
   padding: 1rem 2rem;
-  background: rgba(0, 0, 0, 0.55);
+  background: radial-gradient(circle at top, rgba(11, 37, 69, 0.5) 0%, rgba(3, 8, 15, 0.5) 90%);
   backdrop-filter: blur(10px);
 }
 
@@ -130,7 +130,6 @@ button {
 .hero__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.85));
 }
 
 .hero__content {
@@ -143,13 +142,15 @@ button {
 }
 
 .hero__content h1 {
-  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-size: 27px;
+  padding: 0px 0px 24px;
 }
 
 .hero__content p {
-  font-size: 1.1rem;
+  font-size: 16px;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.9);
+  padding: 0px 0px 24px;
 }
 
 .hero__actions {
@@ -166,18 +167,31 @@ button {
   cursor: pointer;
   font-weight: 700;
   letter-spacing: 0.025em;
-  background: #00bfff;
-  color: #0b1b2a;
+  background: #002f6c;
+  color: #fff;
   transition: background 200ms ease;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .hero__actions button:hover {
-  background: #53d7ff;
+  background: #002f6c;
+  opacity: 0.6;
 }
 
-.hero__actions button.ghost {
+.hero__actions .ghost {
   background: rgba(255, 255, 255, 0.16);
   border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  padding: 0.85rem 2rem;
+  border-radius: 999px;
+  font-weight: 500;
+
+}
+
+.hero__actions .ghost:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.45);
   color: #fff;
 }
 
@@ -204,27 +218,187 @@ button {
   color: rgba(255, 255, 255, 0.85);
 }
 
-.cards {
-  display: grid;
-  gap: 1.25rem;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  margin-top: 1.5rem;
+.form-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #002f6c;
+  background: white;
+  padding: 20px;
+  z-index: 10;
+  font-family: sans-serif;
+  margin: 0px 0px 32px;
+  padding: 0px 0px 10px;
+  font-weight: bolder;
+  font-size: 25px;
 }
 
-.card {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 1.75rem;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+.form-box .form {
+
+  display: flex;
+  justify-self: center;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 400px;
+  margin: 110px;
 }
 
-.card h3 {
-  margin-bottom: 0.75rem;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  /* Remove the default spin buttons in WebKit browsers */
+  margin: 0;
+}
+
+.form-box form input,
+.form-box form select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.form-actions .steps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-direction: row;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-transition {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-transition.fade-out {
+  animation: fadeOut 0.5s ease-in-out forwards;
+}
+
+.fade-transition.fade-in {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes shakeHoriz {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-5px);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+.input-invalid {
+  border: 2px solid #cc1f1f !important;
+  animation: shakeHoriz 0.36s ease-in-out;
+}
+
+.form-actions .steps button {
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  background: #002f6c;
+  color: #fff;
+  transition: background 200ms ease;
+  margin: 0.5rem;
+  width: 200px;
+  height: 40px;
+}
+
+.step {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 3.5em;
+}
+
+.step .btn {
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  background: #002f6c;
+  color: #fff;
+  transition: background 200ms ease;
+  margin: 1.5rem auto 0;
+  width: 200px;
+  height: 40px;
+  display: block;
+}
+
+.form-actions .idontknow-btn {
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  background: #002f6c;
+  color: #fff;
+  transition: background 200ms ease;
+  margin: 1rem auto 0;
+  width: 200px;
+  height: 40px;
+  display: block;
+}
+
+.form-actions .idontknow-btn:hover,
+.step .btn:hover {
+  background: #001f4c;
 }
 
 .footer {
-  background: rgba(0, 0, 0, 0.75);
+  background: #0b1624;
   padding: 3rem 1.5rem 2.5rem;
   color: rgba(255, 255, 255, 0.85);
 }
@@ -260,4 +434,43 @@ button {
   text-align: center;
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.95rem;
+}
+
+/* Close Button for Form Box */
+.close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 45px;
+  height: 45px;
+  border: none;
+  background: #f0f4f8;
+  color: #002f6c;
+  font-size: 28px;
+  font-weight: bold;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 200ms ease;
+  box-shadow: 0 2px 8px rgba(0, 47, 108, 0.1);
+  line-height: 1;
+  padding: 0;
+}
+
+.close:hover {
+  background: #002f6c;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 47, 108, 0.25);
+  transform: scale(1.1);
+}
+
+.close:active {
+  transform: scale(0.95);
+}
+
+.close:focus-visible {
+  outline: 2px solid #002f6c;
+  outline-offset: 2px;
 }

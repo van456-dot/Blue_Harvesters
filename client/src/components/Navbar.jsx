@@ -1,14 +1,16 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
 
 const navItems = [
-  { label: "Home", href: "#hero" },
-  { label: "Get Started", href: "#calculator" },
-  { label: "How it works", href: "#how-it-works" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", to: "/", isFormTrigger: false },
+  { label: "Get Started", to: "/", isFormTrigger: true },
+  { label: "How it works", to: "/how-it-works" },
+  { label: "About", to: "/about" },
+  { label: "Contact", to: "/contact" },
 ];
 
-function Navbar() {
+function Navbar({ onGetStarted, onCloseForm }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -17,9 +19,19 @@ function Navbar() {
 
   const closeMenu = () => setMenuOpen(false);
 
+  const handleNavClick = (item) => {
+    if (item.isFormTrigger && onGetStarted) {
+      onGetStarted();
+    } else if (onCloseForm) {
+      onCloseForm();
+    }
+    closeMenu();
+  };
+
   return (
     <header className="navbar">
-      <div
+      <Link
+        to="/"
         className="navbar__brand"
         role="button"
         tabIndex={0}
@@ -30,7 +42,7 @@ function Navbar() {
       >
         <div className="title">JalVrishti</div>
         <div className="team">by Blue Harvesters</div>
-      </div>
+      </Link>
 
       <button
         type="button"
@@ -44,11 +56,11 @@ function Navbar() {
 
       <nav className={`navbar__nav ${menuOpen ? "navbar__nav--open" : ""}`}>
         <ul className="navbar__list">
-          {navItems.map(({ label, href }) => (
-            <li key={href}>
-              <a href={href} onClick={closeMenu}>
+          {navItems.map(({ label, to, isFormTrigger }) => (
+            <li key={to}>
+              <Link to={to} onClick={() => handleNavClick({ isFormTrigger })}>
                 {label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

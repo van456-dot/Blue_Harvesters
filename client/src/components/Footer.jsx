@@ -1,4 +1,7 @@
-function Footer() {
+import { Link } from "react-router-dom";
+import MultiStepForm from './MultiStepForm';
+
+function Footer({ onGetStarted, onCloseForm }) {
   return (
     <footer className="footer" id="contact">
       <div className="footer__grid">
@@ -6,13 +9,13 @@ function Footer() {
           <h3>Learn</h3>
           <ul>
             <li>
-              <a href="#how-it-works">How it works?</a>
+              <Link to="/how-it-works" onClick={onCloseForm}>How it works?</Link>
             </li>
             <li>
-              <a href="#how-it-works">Steps of rain harvesting</a>
+              <Link to="/how-it-works" onClick={onCloseForm}>Steps of rain harvesting</Link>
             </li>
             <li>
-              <a href="#how-it-works">Why collect rainwater</a>
+              <Link to="/how-it-works" onClick={onCloseForm}>Why collect rainwater</Link>
             </li>
           </ul>
         </div>
@@ -22,7 +25,7 @@ function Footer() {
           <ul>
             <li>
               <a
-                href="https://www.linkedin.com"
+                href="https://www.linkedin.com/in/vansh-goel-743329307"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -30,7 +33,7 @@ function Footer() {
               </a>
             </li>
             <li>
-              <a href="mailto:hello@blueharvesters.com">Email</a>
+              <a href="mailto:vansh27319@gmail.com">Email</a>
             </li>
           </ul>
         </div>
@@ -39,13 +42,13 @@ function Footer() {
           <h3>Explore</h3>
           <ul>
             <li>
-              <a href="#calculator">Get started</a>
+              <Link to="/" role="button" onClick={onGetStarted}>Get started</Link>
             </li>
             <li>
-              <a href="#about">About us</a>
+              <Link to="/about" onClick={onCloseForm}>About us</Link>
             </li>
             <li>
-              <a href="#how-it-works">How it works</a>
+              <Link to="/how-it-works" onClick={onCloseForm}>How it works</Link>
             </li>
           </ul>
         </div>
