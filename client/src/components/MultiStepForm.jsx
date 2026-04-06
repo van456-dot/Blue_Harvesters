@@ -162,7 +162,7 @@ function MultiStepForm({ onClose }) {
 
                 {step === 4 &&
                     <div className={`step fade-transition ${isFading ? 'fade-out' : 'fade-in'}`}>
-                        What is the total volume of your tank?
+                        What is the total volume of your tank?(in L)
                         <form className="form" onSubmit={(e) => e.preventDefault()}>
                             <div className="tank-vol">
                                 <input
