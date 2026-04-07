@@ -253,6 +253,38 @@ button {
   margin: 110px;
 }
 
+.roofType{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  padding: 10px 0;
+  width: 100%;
+  min-width: 300px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  color: #202124;
+}
+
+.roofType label {
+  flex: 0 0 auto;
+  min-width: 120px;
+  text-align: left;
+}
+
+.roofType input[type="radio"] {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+.roofTypeForm{
+  margin: 40px;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

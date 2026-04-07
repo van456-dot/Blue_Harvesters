@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Hero from "./Hero";
 
 function MultiStepForm({ onClose }) {
     const [step, setStep] = useState(1);
@@ -8,7 +7,8 @@ function MultiStepForm({ onClose }) {
         postcode: '',
         roofArea: '',
         people: '',
-        tankVol: ''
+        tankVol: '',
+        roofType: ''
     });
 
     const [invalidField, setInvalidField] = useState('');
@@ -48,20 +48,57 @@ function MultiStepForm({ onClose }) {
                 return false;
             }
         }
+        if (step === 5) {
+            if (!formData.roofType.trim() || String(formData.roofType).length === 0) {
+                setInvalidField('roofType');
+                return false;
+            }
+        }
 
         setInvalidField('');
         return true;
     };
+
+    const submitForm = async () => {
+    try {
+        const response = await fetch("http://localhost:8080/api/calculate", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                ...formData,
+                country: formData.country.toLowerCase()
+            }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Request failed");
+        }
+
+        console.log("Result:", data);
+
+        alert("Calculation successful!");
+        onClose();
+
+    } catch (error) {
+        console.error("Error:", error.message);
+        alert(error.message || "Server not reachable");
+    }
+};
 
     const handleNext = () => {
         if (!validateStep()) return;
 
         setIsFading(true);
         setTimeout(() => {
-            if (step < 4) {
+            if (step < 5) {
                 setStep(step + 1);
             } else {
-                alert('Submit logic here');
+                // Submit form data to Express backend
+                submitForm();
             }
             setIsFading(false);
         }, 500);
@@ -179,6 +216,63 @@ function MultiStepForm({ onClose }) {
                     </div>
                 }
 
+                {
+                    step === 5 &&
+                    <div className={`step fade-transition ${isFading ? 'fade-out' : 'fade-in'}`}>
+                        What is your roof type?
+                        <div className="roofTypeForm">
+
+                            <div className="roofType">
+                                <label htmlFor="Concrete">Concrete</label>
+                                <input
+                                    type="radio"
+                                    id="Concrete"
+                                    name="roofType"
+                                    value="concrete"
+                                    checked={formData.roofType === 'concrete'}
+                                    onChange={handleChange('roofType')}
+                                />
+                            </div>
+
+                            <div className="roofType">
+                                <label htmlFor="metal">Metal Sheet</label>
+                                <input
+                                    type="radio"
+                                    id="metal"
+                                    name="roofType"
+                                    value="metal"
+                                    checked={formData.roofType === 'metal'}
+                                    onChange={handleChange('roofType')}
+                                />
+                            </div>
+
+                            <div className="roofType">
+                                <label htmlFor="tiles">Tile</label>
+                                <input
+                                    type="radio"
+                                    id="tiles"
+                                    name="roofType"
+                                    value="tiles"
+                                    checked={formData.roofType === 'tiles'}
+                                    onChange={handleChange('roofType')}
+                                />
+                            </div>
+
+                            <div className="roofType">
+                                <label htmlFor="Mud">Mud</label>
+                                <input
+                                    type="radio"
+                                    id="Mud"
+                                    name="roofType"
+                                    value="mud"
+                                    checked={formData.roofType === 'mud'}
+                                    onChange={handleChange('roofType')}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                }
+
                 <div className={`form-actions fade-transition ${isFading ? 'fade-out' : 'fade-in'}`} style={{ position: 'absolute', bottom: '1.75em', left: '50%', transform: 'translateX(-50%)' }}>
                     <div className="steps">
 
@@ -188,7 +282,7 @@ function MultiStepForm({ onClose }) {
                             </button>
                         )}
 
-                        {step < 4 ? (
+                        {step < 5 ? (
                             <button type="button" onClick={handleNext}>
                                 Next
                             </button>

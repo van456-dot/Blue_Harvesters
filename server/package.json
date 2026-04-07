@@ -18,5 +18,11 @@
   "author": "Ujjwal and Vansh",
   "type": "commonjs",
   "main": "index.js",
-  "homepage": "https://github.com/van456-dot/Blue_Harvesters#readme"
+  "homepage": "https://github.com/van456-dot/Blue_Harvesters#readme",
+  "dependencies": {
+    "axios": "^1.14.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.1",
+    "express": "^5.2.1"
+  }
 }
