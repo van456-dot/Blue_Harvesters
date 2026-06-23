@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "leaflet": "^1.9.4",
+    "leaflet-draw": "^1.0.4",
+    "leaflet-geometryutil": "^0.10.3",
+    "react-leaflet": "^5.0.0",
+    "react-router-hash-link": "^2.4.3",
+    "recharts": "^2.7.2"
+  }
+}

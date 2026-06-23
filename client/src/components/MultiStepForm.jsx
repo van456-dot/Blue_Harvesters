@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function MultiStepForm({ onClose }) {
     const [step, setStep] = useState(1);
@@ -13,6 +14,34 @@ function MultiStepForm({ onClose }) {
 
     const [invalidField, setInvalidField] = useState('');
     const [isFading, setIsFading] = useState(false);
+
+    const steps = [
+        {
+            label: 'Location',
+            title: 'Find your rainwater potential',
+            subtitle: 'Enter your country and postcode so we can estimate local rainfall for your home.'
+        },
+        {
+            label: 'Roof Details',
+            title: 'Roof area',
+            subtitle: 'Tell us the size of your rooftop in square meters.'
+        },
+        {
+            label: 'Household',
+            title: 'Household size',
+            subtitle: 'How many people live in your home today?'
+        },
+        {
+            label: 'Storage',
+            title: 'Tank capacity',
+            subtitle: 'What is the total volume of your storage tank in liters?'
+        },
+        {
+            label: 'Roof Type',
+            title: 'Roof material',
+            subtitle: 'Choose the roof type that matches your house.'
+        }
+    ];
 
     const handleChange = (field) => (event) => {
         setFormData((prev) => ({ ...prev, [field]: event.target.value }));
@@ -58,36 +87,42 @@ function MultiStepForm({ onClose }) {
         setInvalidField('');
         return true;
     };
+    const navigate = useNavigate();
 
     const submitForm = async () => {
-    try {
-        const response = await fetch("http://localhost:8080/api/calculate", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                ...formData,
-                country: formData.country.toLowerCase()
-            }),
-        });
+        try {
+            const response = await fetch("http://localhost:8080/api/calculate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    ...formData,
+                    country: formData.country.toLowerCase()
+                }),
+            });
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if (!response.ok) {
-            throw new Error(data.error || "Request failed");
+            if (!response.ok) {
+                throw new Error(data.error || "Request failed");
+            }
+
+            console.log("Result:", data);
+
+            if (response.ok) {
+                navigate("/result", {
+                    state: data
+                });
+            }
+            alert("Calculation successful!");
+            onClose();
+
+        } catch (error) {
+            console.error("Error:", error.message);
+            alert(error.message || "Server not reachable");
         }
-
-        console.log("Result:", data);
-
-        alert("Calculation successful!");
-        onClose();
-
-    } catch (error) {
-        console.error("Error:", error.message);
-        alert(error.message || "Server not reachable");
-    }
-};
+    };
 
     const handleNext = () => {
         if (!validateStep()) return;
@@ -104,16 +139,6 @@ function MultiStepForm({ onClose }) {
         }, 500);
     };
 
-    const handleIDontKnow = () => {
-        setIsFading(true);
-        setTimeout(() => {
-            setFormData((prev) => ({ ...prev, roofArea: '' }));
-            setInvalidField('');
-            setStep(3);
-            setIsFading(false);
-        }, 500);
-    };
-
     return (
         <div className="form-overlay">
             <div className="form-box">
@@ -121,12 +146,17 @@ function MultiStepForm({ onClose }) {
                     X
                 </button>
 
+                <div className="step-header">
+                    <p className="step-label">{steps[step - 1].label}</p>
+                    <h2>{steps[step - 1].title}</h2>
+                    <p className="step-subtitle">{steps[step - 1].subtitle}</p>
+                </div>
+
                 {step === 1 &&
                     <div className={`step fade-transition ${isFading ? 'fade-out' : 'fade-in'}`}>
-                        Please select your country and enter your postcode
                         <form className="form" onSubmit={(e) => e.preventDefault()}>
-
-                            <div className="Country">
+                            <div className="form-field">
+                                <label htmlFor="Country">Country</label>
                                 <select
                                     className={invalidField === 'country' ? 'input-invalid' : ''}
                                     value={formData.country}
@@ -142,84 +172,86 @@ function MultiStepForm({ onClose }) {
                                 </select>
                             </div>
 
-                            <div className="Postcode">
+                            <div className="form-field">
+                                <label htmlFor="postcode">Postcode</label>
                                 <input
                                     className={invalidField === 'postcode' ? 'input-invalid' : ''}
                                     value={formData.postcode}
                                     onChange={handleChange('postcode')}
                                     type="text"
                                     name="postcode"
-                                    placeholder="Enter Postcode"
+                                    id="postcode"
+                                    placeholder="Enter your postcode"
                                 />
                             </div>
-
                         </form>
                     </div>
                 }
 
                 {step === 2 &&
                     <div className={`step fade-transition ${isFading ? 'fade-out' : 'fade-in'}`}>
-                        <div>
-                            What's your roof area?(m<sup>2</sup>)
-                            <form className="form" onSubmit={(e) => e.preventDefault()}>
-                                <div className="roof-area">
-                                    <input
-                                        className={invalidField === 'roofArea' ? 'input-invalid' : ''}
-                                        type="number"
-                                        name="roof-area"
-                                        min="1"
-                                        value={formData.roofArea}
-                                        onChange={handleChange('roofArea')}
-                                    />
-                                </div>
-                            </form>
-                        </div>
+                        <form className="form" onSubmit={(e) => e.preventDefault()}>
+                            <div className="form-field">
+                                <label htmlFor="roof-area">Roof area (m²)</label>
+                                <input
+                                    className={invalidField === 'roofArea' ? 'input-invalid' : ''}
+                                    type="number"
+                                    name="roof-area"
+                                    id="roof-area"
+                                    min="1"
+                                    value={formData.roofArea}
+                                    onChange={handleChange('roofArea')}
+                                    placeholder="Enter roof area"
+                                />
+                            </div>
+                        </form>
                     </div>
                 }
 
                 {step === 3 &&
                     <div className={`step fade-transition ${isFading ? 'fade-out' : 'fade-in'}`}>
-                        How many people live in your household?
                         <form className="form" onSubmit={(e) => e.preventDefault()}>
-                            <div className="people">
+                            <div className="form-field">
+                                <label htmlFor="people">Household members</label>
                                 <input
                                     className={invalidField === 'people' ? 'input-invalid' : ''}
                                     required
                                     type="number"
                                     name="people"
+                                    id="people"
                                     min={1}
                                     value={formData.people}
                                     onChange={handleChange('people')}
+                                    placeholder="Enter number of people"
                                 />
                             </div>
                         </form>
                     </div>
                 }
 
-
                 {step === 4 &&
                     <div className={`step fade-transition ${isFading ? 'fade-out' : 'fade-in'}`}>
-                        What is the total volume of your tank?(L)
                         <form className="form" onSubmit={(e) => e.preventDefault()}>
-                            <div className="tank-vol">
+                            <div className="form-field">
+                                <label htmlFor="tank-vol">Tank volume (L)</label>
                                 <input
                                     className={invalidField === 'tankVol' ? 'input-invalid' : ''}
                                     required
                                     type="number"
                                     name="tank-vol"
+                                    id="tank-vol"
                                     min="1"
                                     value={formData.tankVol}
                                     onChange={handleChange('tankVol')}
+                                    placeholder="Enter tank capacity"
                                 />
                             </div>
                         </form>
                     </div>
                 }
 
-                {
-                    step === 5 &&
+                {step === 5 &&
                     <div className={`step fade-transition ${isFading ? 'fade-out' : 'fade-in'}`}>
-                        What is your roof type?
                         <div className="roofTypeForm">
 
                             <div className="roofType">
@@ -292,12 +324,6 @@ function MultiStepForm({ onClose }) {
                             </button>
                         )}
                     </div>
-
-                    {step === 2 && (
-                        <button className="btn idontknow-btn" onClick={handleIDontKnow}>
-                            I don't know
-                        </button>
-                    )}
 
                 </div>
 

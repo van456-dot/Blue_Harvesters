@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const navItems = [
   { label: "Home", to: "/", isFormTrigger: false },
   { label: "Get Started", to: "/", isFormTrigger: true },
-  { label: "How it works", to: "/how-it-works" },
+  { label: "How it works", to: "/learn" },
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
 ];

@@ -9,24 +9,38 @@ const PORT = process.env.PORT || 8080;
 app.use(cors());
 app.use(express.json());
 
-// Health check route
+
+// Health check
 app.get("/", (req, res) => {
-    res.status(200).json({ message: "Server is running" });
+    res.status(200).json({
+        message: "Server is running"
+    });
 });
 
-// Main calculation route
-app.post("/api/calculate", async (req, res) => {
-    try {
-        const { postcode, country, roofArea, people, roofType } = req.body;
 
-        // Input validation
+// Calculation route
+app.post("/api/calculate", async (req, res) => {
+
+    try {
+
+        const {
+            postcode,
+            country,
+            roofArea,
+            people,
+            roofType
+        } = req.body;
+
+
         if (!postcode || !country || !roofArea || !people) {
             return res.status(400).json({
                 error: "Missing required fields"
             });
         }
 
+
         const apiKey = process.env.OPENCAGE_API_KEY;
+
 
         if (!apiKey) {
             return res.status(500).json({
@@ -34,122 +48,450 @@ app.post("/api/calculate", async (req, res) => {
             });
         }
 
-        // Geocoding request
-        const query = `${postcode}, ${country}`;
-        const geoUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(query)}&key=${apiKey}`;
 
-        const geoRes = await axios.get(geoUrl);
+
+        // -------------------
+        // Country normalize
+        // -------------------
+
+        const normalizedCountry = country
+            .toLowerCase()
+            .trim();
+
+
+        const countryMap = {
+
+            "united states of america":
+                "united states",
+
+            "usa":
+                "united states",
+
+            "us":
+                "united states",
+
+            "uk":
+                "united kingdom"
+
+        };
+
+
+        const finalCountry =
+            countryMap[normalizedCountry] ||
+            normalizedCountry;
+
+
+
+
+        // -------------------
+        // Geocoding
+        // -------------------
+
+        const query =
+            `${postcode}, ${country}`;
+
+
+        const geoUrl =
+            `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(query)}&key=${apiKey}`;
+
+
+        const geoRes =
+            await axios.get(geoUrl);
+
+
 
         if (!geoRes.data.results?.length) {
+
             return res.status(400).json({
                 error: "Invalid location provided"
             });
+
         }
 
-        const { lat, lng } = geoRes.data.results[0].geometry;
-        console.log("Geocoded Location:", lat, lng);
 
-        // NASA power request
 
-        const rainUrl = `https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=PRECTOTCORR&community=RE&longitude=${lng}&latitude=${lat}&format=JSON`;
+        const {
+            lat,
+            lng
+        } =
+            geoRes.data.results[0].geometry;
 
-        const rainRes = await axios.get(rainUrl);
 
-        const monthly = rainRes.data.properties.parameter.PRECTOTCORR;// Monthly average precipitation in mm/day
-        const annualRainfall = monthly.ANN * 365; // Convert from mm/day to mm/year
 
-        console.log("Annual Rainfall:", annualRainfall); //annual rainfall in mm/year
+        // -------------------
+        // NASA rainfall
+        // -------------------
 
-        // Calculation logic
+        const rainUrl =
+            `https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=PRECTOTCORR&community=RE&longitude=${lng}&latitude=${lat}&format=JSON`;
+
+
+        const rainRes =
+            await axios.get(rainUrl);
+
+
+
+        const monthly =
+            rainRes.data.properties.parameter.PRECTOTCORR;
+
+
+        const annualRainfall =
+            monthly.ANN * 365;
+
+
+
+        // -------------------
+        // Water calculation
+        // -------------------
+
+
         const coefficients = {
+
             concrete: 0.8,
             metal: 0.9,
             tiles: 0.75,
             mud: 0.6
+
         };
-        const coeff = coefficients[roofType] || 0.8;
 
-        const runoff = annualRainfall * Number(roofArea) * coeff; // runoff in liters/year
-        const demand = Number(people) * 135 * 365; // demand in liters/year (135 liters per person per day)
 
-        // Recommendation logic
-        let structure = "Recharge Pit";
+        const coeff =
+            coefficients[roofType] || 0.8;
 
-        if (roofArea > 200) {
-            structure = "Recharge Trench";
+
+
+        const runoff =
+            annualRainfall *
+            Number(roofArea) *
+            coeff;
+
+
+
+        const demand =
+            Number(people) *
+            135 *
+            365;
+
+
+
+        const coverage =
+            (runoff / demand) * 100;
+
+
+
+        const surplus =
+            runoff - demand;
+
+
+
+
+        // -------------------
+        // Structure
+        // -------------------
+
+
+        let structure;
+
+
+        if (coverage < 30) {
+
+            structure =
+                "Recharge Pit";
+
         }
 
-        if (runoff > 100000) {
-            structure = "Storage Tank";
+
+        else if (coverage < 100) {
+
+
+            if (Number(roofArea) < 150) {
+
+                structure =
+                    "Recharge Pit";
+
+            }
+            else {
+
+                structure =
+                    "Recharge Trench";
+
+            }
+
         }
 
-        //Cost estimation (simplified)
-        const baseCost = { // estimation in INR
+
+        else {
+
+
+            if (runoff < 200000) {
+
+                structure =
+                    "Storage Tank";
+
+            }
+            else {
+
+                structure =
+                    "Storage Tank + Recharge Trench";
+
+            }
+
+        }
+
+
+
+
+        // -------------------
+        // Cost
+        // -------------------
+
+
+        const baseCost = {
+
             "Recharge Pit": 15000,
+
             "Recharge Trench": 30000,
-            "Storage Tank": 50000
+
+            "Storage Tank": 50000,
+
+            "Storage Tank + Recharge Trench": 80000
+
         };
 
-        const countryFactor = { // Cost multiplier based on country
+
+
+        const countryFactor = {
+
+
             india: 1,
-            united_states: 3.5,
+
+            "united states": 3.5,
+
             australia: 3,
-            united_kingdom: 3.2,
-            south_africa: 1.8,
+
+            "united kingdom": 3.2,
+
+            "south africa": 1.8,
+
+
             default: 2
+
         };
 
-        const base = baseCost[structure];
-        const multiplier = countryFactor[country] || countryFactor.default;
 
-        const estimatedCost = base * multiplier;
 
-        const currencySymbol = {
-            india: "₹",
-            united_states: "$",
-            australia: "A$",
-            united_kingdom: "£",
-            south_africa: "R"
+        const base =
+            baseCost[structure] || 50000;
+
+
+        const multiplier =
+            countryFactor[finalCountry] ||
+            countryFactor.default;
+
+
+
+        const costINR =
+            base * multiplier;
+
+
+
+
+
+        // -------------------
+        // Currency
+        // -------------------
+
+
+        const currency = {
+
+
+            india: {
+                symbol: "₹",
+                conversion: 1
+            },
+
+
+            "united states": {
+                symbol: "$",
+                conversion: 0.012
+            },
+
+
+            australia: {
+                symbol: "A$",
+                conversion: 0.018
+            },
+
+
+            "united kingdom": {
+                symbol: "£",
+                conversion: 0.0095
+            },
+
+
+            "south africa": {
+                symbol: "R",
+                conversion: 0.22
+            },
+
+
+            default: {
+                symbol: "$",
+                conversion: 0.012
+            }
+
+
         };
-        const symbol = currencySymbol[country] || "₹";
 
-        const waterRateByCountry = {
+
+
+        const selectedCurrency =
+            currency[finalCountry] ||
+            currency.default;
+
+
+
+
+        const finalCost =
+            costINR *
+            selectedCurrency.conversion;
+
+
+
+        // -------------------
+        // Savings
+        // -------------------
+
+
+        const waterRate = {
+
+
             india: 50,
-            united_states: 150,
+
+            "united states": 150,
+
             australia: 120,
+
+            "united kingdom": 140,
+
+            "south africa": 80,
+
+
             default: 80
+
         };
 
 
-        //cost benefit analysis
-        const rate = waterRateByCountry[country] || waterRateByCountry.default;
 
-        const annualSavings = (runoff / 1000) * rate;
+        const rate =
+            waterRate[finalCountry] ||
+            waterRate.default;
 
-        const paybackYears = estimatedCost / annualSavings;
+
+
+        const annualSavings =
+            (runoff / 1000) *
+            rate *
+            selectedCurrency.conversion;
+
+
+
+        const paybackYears =
+            annualSavings > 0
+                ?
+                finalCost / annualSavings
+                :
+                null;
+
+
+
+
+        const feasible =
+            coverage >= 50;
+
+
+
 
         return res.status(200).json({
+
+
             location: {
+
                 latitude: lat,
                 longitude: lng
-            },
-            rainwaterCollected: runoff,
-            waterDemand: demand,
-            feasible: runoff >= demand,
-            recommendedStructure: structure,
 
-            cost: `${symbol}${estimatedCost}`,
-            annualSavings: `${symbol}${annualSavings.toFixed(0)}`,
-            paybackPeriod: `${paybackYears.toFixed(1)} years`
+            },
+
+
+            rainfall:
+                Number(annualRainfall.toFixed(2)),
+
+
+            rainwaterCollected:
+                Number(runoff.toFixed(0)),
+
+
+            waterDemand:
+                Number(demand.toFixed(0)),
+
+
+            surplus:
+                Number(surplus.toFixed(0)),
+
+
+            coverage:
+                Number(coverage.toFixed(1)),
+
+
+            feasible,
+
+
+            recommendedStructure:
+                structure,
+
+
+            cost:
+                `${selectedCurrency.symbol}${finalCost.toFixed(0)}`,
+
+
+            annualSavings:
+                `${selectedCurrency.symbol}${annualSavings.toFixed(0)}`,
+
+
+            paybackPeriod:
+
+                paybackYears
+                    ?
+                    `${paybackYears.toFixed(1)} years`
+                    :
+                    "Not recoverable"
+
+
         });
 
-    } catch (error) {
+
+
+    }
+
+    catch (error) {
+
+        console.error(error.message);
+
+
         return res.status(500).json({
             error: "Internal server error"
         });
+
     }
+
 });
 
+
+
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+
+    console.log(
+        `Server running on port ${PORT}`
+    );
+
 });
