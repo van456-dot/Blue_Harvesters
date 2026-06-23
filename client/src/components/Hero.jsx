@@ -1,42 +1,145 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import heroImage from '../assets/heroImage.webp';
+import heroImage from '../assets/heroImage.png';
 import MultiStepForm from './MultiStepForm';
 
+
 function Hero({ showForm, onGetStarted, onCloseForm }) {
+
+
+    const features = [
+        {
+            title:"Accurate Estimation",
+            text:"Uses rainfall data and roof details to estimate yearly water collection."
+        },
+        {
+            title:"Personalized Results",
+            text:"Calculates water demand based on your location and household size."
+        },
+        {
+            title:"Smart Recommendations",
+            text:"Suggests storage tanks, recharge pits or trenches."
+        },
+        {
+            title:"Sustainable Impact",
+            text:"Understand savings and reduce dependency on external water."
+        }
+    ];
+
+
     return (
+
         <section
-            id="hero"
-            className="hero"
-            style={{
-                backgroundImage: `url(${heroImage})`,
-            }}
+        className="hero"
+        style={{
+            backgroundImage:`url(${heroImage})`
+        }}
         >
-            <div className="hero__overlay" />
-            <div className="hero__content">
-                <h1>Calculate your water usage and rainwater tank balance from month to month</h1>
-                <p>
-                    The rainwater tank balance calculator calculates and charts your predicted monthly and annual tank levels based on your usage, collection area, and rainfall patterns. Use it to select a new tank size, troubleshoot your existing system, or adjust your water usage habits.
+
+        <div className="hero__overlay"></div>
+
+
+        <div className="hero__content">
+
+
+            <div className="hero__text">
+
+
+                <p className="hero__tag">
+                    Smart Rainwater Harvesting System
                 </p>
+
+
+                <h1>
+                    Every Drop Counts.
+                    <br/>
+
+                    <span>
+                    Harvest Today,
+                    </span>
+
+                    <br/>
+
+                    Secure Tomorrow.
+                </h1>
+
+
+
+                <p>
+                    JalVrishti helps you analyze rooftop rainfall,
+                    calculate harvesting potential and find the
+                    most suitable water conservation solution.
+                </p>
+
+
+
                 <div className="hero__actions">
+
                     <button onClick={onGetStarted}>
-                        Get started
+                        Get Started
                     </button>
+
+
                     <Link
-                        to="/how-it-works"
-                        className="ghost"
+                    to="/learn"
+                    className="ghost"
                     >
-                        How it works
+                        How it Works
                     </Link>
+
                 </div>
+
+
+
+
+                <div className="hero__features">
+
+
+                {
+                    features.map((item,index)=>(
+
+                    <div
+                    className="feature-card"
+                    key={index}
+                    >
+
+                    <h3>
+                    {item.title}
+                    </h3>
+
+
+                    <p>
+                    {item.text}
+                    </p>
+
+
+                    </div>
+
+                    ))
+                }
+
+
+                </div>
+
+
+
             </div>
 
-            {
-                showForm && (
-                    <MultiStepForm onClose={onCloseForm} />
-                )
-            }
+
+        </div>
+
+
+
+        {
+            showForm &&
+            <MultiStepForm onClose={onCloseForm}/>
+        }
+
+
         </section>
-    );
+
+    )
+
 }
+
+
 export default Hero;

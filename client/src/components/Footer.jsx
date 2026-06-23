@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import MultiStepForm from './MultiStepForm';
 
 function Footer({ onGetStarted, onCloseForm }) {
@@ -9,13 +9,13 @@ function Footer({ onGetStarted, onCloseForm }) {
           <h3>Learn</h3>
           <ul>
             <li>
-              <Link to="/how-it-works" onClick={onCloseForm}>How it works?</Link>
+              <Link to="/learn" onClick={onCloseForm}>How it works?</Link>
             </li>
             <li>
-              <Link to="/how-it-works" onClick={onCloseForm}>Steps of rain harvesting</Link>
+              <Link to="/learn" onClick={onCloseForm}>Steps of rain harvesting</Link>
             </li>
             <li>
-              <Link to="/how-it-works" onClick={onCloseForm}>Why collect rainwater</Link>
+              <Link to="/learn" onClick={onCloseForm}>Why collect rainwater</Link>
             </li>
           </ul>
         </div>
@@ -35,6 +35,7 @@ function Footer({ onGetStarted, onCloseForm }) {
             <li>
               <a href="mailto:vansh27319@gmail.com">Email</a>
             </li>
+            <li><a href="https://www.github.com/van456-dot" target="_blank" rel="noreferrer">Github</a></li>
           </ul>
         </div>
 
@@ -45,10 +46,10 @@ function Footer({ onGetStarted, onCloseForm }) {
               <Link to="/" role="button" onClick={onGetStarted}>Get started</Link>
             </li>
             <li>
-              <Link to="/about" onClick={onCloseForm}>About us</Link>
+              <Link to="/about" onClick={onCloseForm}>About</Link>
             </li>
             <li>
-              <Link to="/how-it-works" onClick={onCloseForm}>How it works</Link>
+              <Link to="/learn" onClick={onCloseForm}>Learn</Link>
             </li>
           </ul>
         </div>
