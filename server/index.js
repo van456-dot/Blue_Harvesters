@@ -474,15 +474,12 @@ app.post("/api/calculate", async (req, res) => {
     }
 
     catch (error) {
+    console.error("FULL ERROR:", error);
 
-        console.error(error.message);
-
-
-        return res.status(500).json({
-            error: "Internal server error"
-        });
-
-    }
+    return res.status(500).json({
+        error: error.message
+    });
+}
 
 });
 
