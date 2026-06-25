@@ -1762,7 +1762,7 @@ section h1 span {
   background-image:
     linear-gradient(90deg, rgba(0, 22, 50, 0.05) 100%, rgba(0, 22, 50, 0.55) 0%, #001632f7 0%),
     linear-gradient(180deg, #001632f7 20%, rgba(0, 22, 50, 0.15) 50%, transparent 50%),
-    url("./src/assets/ripple.webp");
+    url("/images/ripple.webp");
 
   background-repeat: no-repeat;
   background-position: left bottom;
