@@ -42,19 +42,19 @@ function Working() {
                     <p>Reduce dependence on municipal water supplies</p>
                 </div>
                 <div className="grid2-item">
-                    <div className="title"><img src="/images/banknotes.svg" alt="" srcset="" /><h5>Save Money</h5></div>
+                    <div className="title"><img src="/images/banknotes.svg" alt="" /><h5>Save Money</h5></div>
                     <p>Lower your water bills and maintenance costs</p>
                 </div>
                 <div className="grid2-item">
-                    <div className="title"><img src="/images/aquifer.png" alt="" srcset="" /><h5>Recharge Groundwater</h5></div>
+                    <div className="title"><img src="/images/aquifer.png" alt="" /><h5>Recharge Groundwater</h5></div>
                     <p>Improve groundwater levels and prevent water scarcity</p>
                 </div>
                 <div className="grid2-item">
-                    <div className="title"><img src="/images/flooded-house.png" alt="" srcset="" /><h5>Reduce Flooding</h5></div>
+                    <div className="title"><img src="/images/flooded-house.png" alt=""  /><h5>Reduce Flooding</h5></div>
                     <p>Capture rainwater and reduce surface runoff and flooding</p>
                 </div>
                 <div className="grid2-item">
-                    <div className="title"><img src="/images/leaf.svg" alt="" srcset="" /><h5>Better Environment</h5></div>
+                    <div className="title"><img src="/images/leaf.svg" alt="" /><h5>Better Environment</h5></div>
                     <p>Consume water today for a cleaner and greener tomorrow</p>
                 </div>
             </div>
