@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import heroImage from '../assets/heroImage.png';
 import MultiStepForm from './MultiStepForm';
 
 
@@ -31,7 +30,7 @@ function Hero({ showForm, onGetStarted, onCloseForm }) {
         <section
         className="hero"
         style={{
-            backgroundImage:`url(${heroImage})`
+            backgroundImage:`url("/images/heroImage.png")`
         }}
         >
 
