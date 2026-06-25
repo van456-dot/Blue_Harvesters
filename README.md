@@ -6,10 +6,11 @@ A web application for **on-spot assessment of Rooftop Rainwater Harvesting (RTRW
 ## 🌐 Live Demo
 
 Frontend:
-https://your-vercel-url.vercel.app
+https://blue-harvesters.vercel.app
 
 Backend API:
-https://your-render-url.onrender.com
+https://blue-harvesters.onrender.com
+
 ---
 
 ## 📌 Overview
@@ -259,8 +260,11 @@ This tool aims to:
 
 Vansh Goel
 
-GitHub: github.com/van456-dot
-LinkedIn: linkedin.com/in/vansh-goel-743329307
+GitHub:
+https://github.com/van456-dot
+
+LinkedIn:
+https://linkedin.com/in/vansh-goel-743329307
 
 ---
 
