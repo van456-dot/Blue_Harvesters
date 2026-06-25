@@ -91,7 +91,7 @@ function MultiStepForm({ onClose }) {
 
     const submitForm = async () => {
         try {
-            const response = await fetch("http://localhost:8080/api/calculate", {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/calculate`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
