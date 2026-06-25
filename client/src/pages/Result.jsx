@@ -19,13 +19,13 @@ function Result() {
   const getStructureImage = () => {
     const structure = result.recommendedStructure.toLowerCase() || '';
     if (structure.includes('tank') || structure.includes('storage')) {
-      return './src/assets/icn-stg-tank.png'; // Storage tank image
+      return '/images/icn-stg-tank.png'; // Storage tank image
     } else if (structure.includes('trench') || structure.includes('drain')) {
-      return './src/assets/icn-rechg-trench.png'; // Trench/French drain image
+      return '/images/icn-rechg-trench.png'; // Trench/French drain image
     } else if (structure.includes('pit')) {
-      return './src/assets/icn-rechg-pit.png'; // Pit/bore well image
+      return '/images/icn-rechg-pit.png'; // Pit/bore well image
     }
-    return './src/assets/icn-stg-tank.png'; // Default to storage tank
+    return '/images/icn-stg-tank.png'; // Default to storage tank
   };
 
   const handleDownload = () => {
@@ -49,11 +49,11 @@ function Result() {
         <p>We've analyzed your inputs to help you make the best decision</p>
 
         <div className={`box ${isFeasible ? 'feasible' : 'infeasible'}`}>
-          <div className="houseImg"><img src="./src/assets/houseImg.png" alt="" width={200} /></div>
+          <div className="houseImg"><img src="/images/houseImg.png" alt="" width={200} /></div>
           <div className="midContent">
 
             <h4 className={isFeasible ? 'success' : 'error'}>
-              <img src={isFeasible ? './src/assets/check-mark.png' : './src/assets/cross-mark.png'} alt={isFeasible ? 'success' : 'error'} />
+              <img src={isFeasible ? '/images/check-mark.png' : '/images/cross-mark.png'} alt={isFeasible ? 'success' : 'error'} />
               {isFeasible ? 'Great News!' : 'Uh oh!'}
             </h4>
             <p> {isFeasible ? 'Your rooftop has the potential to harvest' : "Your rooftop doesn't have the potential to harvest rainwater."}</p>
@@ -65,10 +65,10 @@ function Result() {
             <ul>
               <h4>You can use this water for:</h4>
 
-              <li> <img src="./src/assets/leaves-of-a-plant.png" alt="" />Gardening & Landscaping</li>
-              <li> <img src="./src/assets/toilet.png" alt="" />Flushing Toilets</li>
-              <li> <img src="./src/assets/wash.png" alt="" />Cleaning & Washing</li>
-              <li> <img src="./src/assets/mop.png" alt="" />General Non-Potable Use</li>
+              <li> <img src="/images/leaves-of-a-plant.png" alt="" />Gardening & Landscaping</li>
+              <li> <img src="/images/toilet.png" alt="" />Flushing Toilets</li>
+              <li> <img src="/images/wash.png" alt="" />Cleaning & Washing</li>
+              <li> <img src="/images/mop.png" alt="" />General Non-Potable Use</li>
             </ul>
           ) : (
             <ul>
@@ -85,7 +85,7 @@ function Result() {
 
         <div className="grid1">
           <div className="grid-item">
-            <img src="./src/assets/icn-drop.png" alt="" />
+            <img src="/images/icn-drop.png" alt="" />
             <div className="itemContent">
               <p>Annual Rainwater Collected</p>
               <h3>{parseInt(result.rainwaterCollected)} L</h3>
@@ -94,7 +94,7 @@ function Result() {
           </div>
 
           <div className="grid-item">
-            <img src="./src/assets/icn-piggy.png" alt=""/>
+            <img src="/images/icn-piggy.png" alt=""/>
             <div className="itemContent">
               <p>Annual Savings</p>
               <h3>{result.annualSavings} </h3>
@@ -103,7 +103,7 @@ function Result() {
           </div>
 
           <div className="grid-item">
-            <img src="./src/assets/icn-wallet.png" alt="" />
+            <img src="/images/icn-wallet.png" alt="" />
             <div className="itemContent">
               <p>Total System Cost</p>
               <h3>{result.cost} </h3>
@@ -112,7 +112,7 @@ function Result() {
           </div>
 
           <div className="grid-item">
-            <img src="./src/assets/icn-payback.png" alt="" />
+            <img src="/images/icn-payback.png" alt="" />
             <div className="itemContent">
               <p>Payback Period</p>
               <h3>{result.paybackPeriod}</h3>
@@ -134,7 +134,7 @@ function Result() {
 
           <div className="grid-item">
             <h6>Feasibility</h6>
-            {isFeasible ? <img src="./src/assets/icn-feasible.png" alt="" /> : <img src="./src/assets/icn-notFeasible.png" alt="" />} 
+            {isFeasible ? <img src="/images/icn-feasible.png" alt="" /> : <img src="/images/icn-notFeasible.png" alt="" />} 
             <p>{result.feasible ? "Your location and roof are suitable for rainwater harvesting" : "Your roof is not suitable for rainwater harvesting"}</p>
           </div>
 
@@ -150,13 +150,13 @@ function Result() {
         <div className="locationBox">
 
           <div className="locationContent">
-            <h6> <img src="./src/assets/svg-pin.svg" alt=""/> Your Location</h6>
+            <h6> <img src="/images/svg-pin.svg" alt=""/> Your Location</h6>
             <p>Latitude: {result.location.latitude}</p>
             <p>Longitude: {result.location.longitude}</p>
           </div>
 
           <div className="tipContent">
-            <h6><img src="./src/assets/icn-tip-drop.png" alt="" />Pro Tip</h6>
+            <h6><img src="/images/icn-tip-drop.png" alt="" />Pro Tip</h6>
             <p>Maintain your system regularly and clean your filters to ensure maximum efficiency and long-term savings.</p>
           </div>
 
@@ -164,8 +164,8 @@ function Result() {
       </div>
 
       <div className="result-actions">
-        <button className="btn-primary" onClick={handleDownload}> <img src="./src/assets/svg-download.svg" alt="" width={20} /> Download Report</button>
-        <Link to="/" className="btn-secondary"> <img src="./src/assets/svg-return.svg" alt="" width={15} /> Recalculate</Link>
+        <button className="btn-primary" onClick={handleDownload}> <img src="/images/svg-download.svg" alt="" width={20} /> Download Report</button>
+        <Link to="/" className="btn-secondary"> <img src="/images/svg-return.svg" alt="" width={15} /> Recalculate</Link>
       </div>
     </div>
   );

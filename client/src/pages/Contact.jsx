@@ -92,9 +92,9 @@ function ContactForm() {
             <p>Have questions, suggestions, or feedback about JalVrishti? I would love to hear from you. Whether it is about the project, improvements, collaboration, or technology discussion, feel free to reach out.</p>
             <div className="content">
                 <ul>
-                    <li><a href="mailto:vansh27319@gmail.com" rel="noreferrer"><img src="./src/assets/icn-email.png" alt="" />Email</a></li>
-                    <li><a href="https://www.linkedin.com/in/vansh-goel-743329307" target="_blank" rel="noreferrer"><img src="./src/assets/icn-linkedin.png" alt="" />LinkedIn</a></li>
-                    <li><a href="https://www.github.com/van456-dot" target="_blank" rel="noreferrer"><img src="./src/assets/icn-github.png" alt="" />Github</a></li>
+                    <li><a href="mailto:vansh27319@gmail.com" rel="noreferrer"><img src="/images/icn-email.png" alt="" />Email</a></li>
+                    <li><a href="https://www.linkedin.com/in/vansh-goel-743329307" target="_blank" rel="noreferrer"><img src="/images/icn-linkedin.png" alt="" />LinkedIn</a></li>
+                    <li><a href="https://www.github.com/van456-dot" target="_blank" rel="noreferrer"><img src="/images/icn-github.png" alt="" />Github</a></li>
                 </ul>
 
                 <form ref={form} onSubmit={sendEmail} noValidate>
