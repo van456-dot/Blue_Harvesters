@@ -1,7 +1,15 @@
-# 🌧️ Rooftop Rainwater Harvesting & Artificial Recharge Assessment Tool
+# 🌧️ JalVrishti
+## Rooftop Rainwater Harvesting Assessment Tool
 
-A web application for **on-spot assessment of Rooftop Rainwater Harvesting (RTRWH)** and **Artificial Recharge (AR)** potential. This tool enables users to evaluate feasibility, estimate runoff, and get recommendations for sustainable groundwater management.
+A web application for **on-spot assessment of Rooftop Rainwater Harvesting (RTRWH)**. This tool enables users to evaluate feasibility, estimate runoff, and get recommendations for sustainable groundwater management.
 
+## 🌐 Live Demo
+
+Frontend:
+https://your-vercel-url.vercel.app
+
+Backend API:
+https://your-render-url.onrender.com
 ---
 
 ## 📌 Overview
@@ -21,14 +29,27 @@ This project aims to bridge that gap by providing a **user-friendly application*
 
 * ✅ Feasibility analysis for rooftop rainwater harvesting
 * 🌧️ Rainfall data integration (location-based)
-* 🌍 GIS-based groundwater insights (aquifer, depth, etc.)
 * 📊 Runoff calculation and water demand estimation
 * 🏗️ Structure recommendation (pit, trench, shaft, storage tank)
 * 📐 Dimension calculation for recharge structures
 * 💰 Cost estimation and cost-benefit analysis
-* 📍 Auto location detection
   
 ---
+
+## 📸 Screenshots
+
+### Home Page
+<img width="1906" height="902" alt="Screenshot 2026-06-25 161518" src="https://github.com/user-attachments/assets/fabb286e-34f8-48c5-9907-7caea62e4cd1" />
+
+### Assessment Form
+<img width="1893" height="906" alt="Screenshot 2026-06-25 161533" src="https://github.com/user-attachments/assets/46e9bc48-9aa8-4069-b5e2-efce124ca7a2" />
+
+### Results
+<img width="1918" height="911" alt="Screenshot 2026-06-25 161736" src="https://github.com/user-attachments/assets/ef22cce2-6500-4562-96e0-65ecd1d444d0" />
+
+### Contact
+<img width="1902" height="905" alt="Screenshot 2026-06-25 161617" src="https://github.com/user-attachments/assets/fd2e965f-c6a9-4513-bc98-3a1246bf9385" />
+
 
 ## 🧠 Core Calculation Logic
 
@@ -46,12 +67,15 @@ Runoff = Rainfall × Roof Area × Runoff Coefficient
 
 ---
 
-### Water Demand Estimation
+### Water Demand Estimation (Annual)
 
 ```
-Demand = Number of People × 135 L/day
+Demand = Number of People × 135 x 365
 ```
-
+### Coverage:
+```
+Coverage = (Collected Water / Demand) × 100
+```
 ---
 
 ### Structure Recommendation
@@ -69,40 +93,44 @@ Rule-based logic:
 
 ### Frontend
 
-* React.js
+- React.js
+- React Router
+- CSS3
+- Vite
 
 ### Backend
 
-* Node.js + Express
+- Node.js
+- Express.js
+- Axios
 
-### Database
+### APIs
+- NASA POWER API
+- OpenCage Geocoding API
 
-* MongoDB
-
-### GIS & Mapping
-
-* Leaflet.js
-
-### APIs & Data Sources
-
-* Rainfall: IMD / NASA POWER API
-* Maps: OpenStreetMap / Google Maps
-* Groundwater: CGWB datasets
+### Deployment
+- Vercel (Frontend)
+- Render (Backend)
 
 ---
 
 ## ⚙️ System Architecture
 
 ```
-Frontend (UI)
-     ↓
-Backend API
-     ↓
+React Frontend
+        |
+        |
+Express REST API
+        |
+        |
 Calculation Engine
-     ↓
-Database + GIS Data
-     ↓
-Response (Results + Recommendations)
+        |
+        |
+External APIs
+(OpenCage + NASA POWER)
+        |
+        |
+Result Dashboard
 ```
 
 ---
@@ -138,17 +166,26 @@ npm run dev
 
 ---
 
+## 🔐 Environment Variables
+
+Create `.env` inside server:
+
+OPENCAGE_API_KEY=your_api_key
+PORT=8080
+
 ## 🔌 API Example
 
-### POST `/calculate`
+### POST `/api/calculate`
 
 #### Request
 
 ```json
 {
-  "location": "Meerut",
-  "roof_area": 100,
-  "people": 5
+   "postcode":"250001",
+  "country":"india",
+  "roofArea":120,
+  "people":5,
+  "roofType":"concrete"
 }
 ```
 
@@ -156,11 +193,12 @@ npm run dev
 
 ```json
 {
-  "runoff": 65000,
-  "feasible": true,
-  "structure": "Recharge Pit",
-  "dimensions": "2m x 2m x 2m",
-  "cost": "₹25,000"
+  "rainwaterCollected": 58000,
+ "waterDemand": 246375,
+ "coverage":23.5,
+ "feasible":false,
+ "recommendedStructure":"Recharge Pit",
+ "cost":"₹15000"
 }
 ```
 
@@ -205,8 +243,6 @@ This project is licensed under the MIT License.
 
 * Central Ground Water Board (CGWB)
 * Indian Meteorological Department (IMD)
-* OpenStreetMap
-
 ---
 
 ## 💡 Impact
@@ -217,6 +253,14 @@ This tool aims to:
 * Increase public awareness
 * Enable data-driven decision making
 * Support sustainable water management
+
+---
+## 👨‍💻 Author
+
+Vansh Goel
+
+GitHub: github.com/van456-dot
+LinkedIn: linkedin.com/in/vansh-goel-743329307
 
 ---
 
