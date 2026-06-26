@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function MultiStepForm({ onClose }) {
     const [step, setStep] = useState(1);
+    const [loading, setLoading]  = useState(false);
     const [formData, setFormData] = useState({
         country: 'india',
         postcode: '',
@@ -90,6 +91,7 @@ function MultiStepForm({ onClose }) {
     const navigate = useNavigate();
 
     const submitForm = async () => {
+        setLoading(true);
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/api/calculate`, {
                 method: "POST",
@@ -120,6 +122,8 @@ function MultiStepForm({ onClose }) {
         } catch (error) {
             console.error("Error:", error.message);
             alert(error.message || "Server not reachable");
+        }finally{
+            setLoading(false);
         }
     };
 
@@ -318,15 +322,20 @@ function MultiStepForm({ onClose }) {
                                 Next
                             </button>
                         ) : (
-                            <button type="button" className="buttonload" onClick={handleNext}>
-                                <i className="fa fa-spinner fa-spin"></i>
-                                Submit
+                            <button type="button" className="buttonload" onClick={handleNext} disabled={loading}>
+                                {loading ? (
+                                    <>
+                                    <i className="fa fa-spinner fa-spin"></i>
+                                    Submitting...
+                                    </>
+                                ):(
+                                    "Submit"
+                                )}
                             </button>
                         )}
                     </div>
 
                 </div>
-
             </div>
 
         </div >
