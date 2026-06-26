@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 
 function MultiStepForm({ onClose }) {
     const [step, setStep] = useState(1);
@@ -115,7 +116,6 @@ function MultiStepForm({ onClose }) {
                     state: data
                 });
             }
-            alert("Calculation successful!");
             onClose();
 
         } catch (error) {
@@ -319,7 +319,8 @@ function MultiStepForm({ onClose }) {
                                 Next
                             </button>
                         ) : (
-                            <button type="button" onClick={handleNext}>
+                            <button type="button" className="buttonload" onClick={handleNext}>
+                                <i className="fa fa-spinner fa-spin"></i>
                                 Submit
                             </button>
                         )}
