@@ -322,12 +322,9 @@ function MultiStepForm({ onClose }) {
                                 Next
                             </button>
                         ) : (
-                            <button type="button" className="buttonload" onClick={handleNext} disabled={loading}>
+                            <button type="button" onClick={handleNext} disabled={loading}>
                                 {loading ? (
-                                    <>
-                                    <i className="fa fa-spinner fa-spin"></i>
-                                    Submitting...
-                                    </>
+                                    "Submitting..."
                                 ):(
                                     "Submit"
                                 )}
